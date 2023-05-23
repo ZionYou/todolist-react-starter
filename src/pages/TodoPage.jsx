@@ -30,11 +30,11 @@ const TodoPage = () => {
   //  儲存所有的todoItem
   const [todos, setTodos] = useState(dummyTodos);
 
-  // 接住子層傳來的 onChange
+  // 監聽子層傳來的 onChange
   const handleChange = (value) => {
     setInputValue(value);
   };
-  // 接住子層觸發的 onAddTodo
+  // 監聽子層觸發的 onAddTodo
   const handleAddTodo = () => {
     if (inputValue.length === 0) {
       return;
@@ -51,7 +51,7 @@ const TodoPage = () => {
     });
     setInputValue('');
   };
-  // 接住子層觸發的 onKeyDown
+  // 監聽子層觸發的 onKeyDown
   const handleKeyDown = () => {
     if (inputValue.length === 0) {
       return;
@@ -68,6 +68,20 @@ const TodoPage = () => {
     });
     setInputValue('');
   };
+  // 監聽子層觸發的 onToggleDone
+  const handleToggleDone = (id) => {
+    setTodos((prevTodos) => {
+      return prevTodos.map((todo) => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            isDone: !todo.isDone,
+          };
+        }
+        return todo;
+      });
+    });
+  };
 
   return (
     <div>
@@ -79,7 +93,7 @@ const TodoPage = () => {
         onAddTodo={handleAddTodo}
         onKeyDown={handleKeyDown}
       />
-      <TodoCollection todos={todos} />
+      <TodoCollection todos={todos} onToggleDone={handleToggleDone} />
       <Footer />
     </div>
   );

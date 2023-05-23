@@ -2,7 +2,7 @@ import TodoItem from './TodoItem';
 
 const TodoCollection = ({
   todos,
-  onToggleDon,
+  onToggleDone,
   onSave,
   onDelete,
   onChangeMode,
@@ -10,7 +10,13 @@ const TodoCollection = ({
   return (
     <div>
       {todos.map(todo=> {
-        return <TodoItem  key={todo.id} todo={todo}/>
+        return (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onToggleDone={(id) => onToggleDone?.(id)}
+          />
+        );
       })}
     </div>
   );
