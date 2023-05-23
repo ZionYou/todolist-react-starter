@@ -49,4 +49,3 @@ ctrl + c
 * react-router-dom 6.4.1
 * Sass 1.56.2
 * clsx 1.2.1
-* Scss
