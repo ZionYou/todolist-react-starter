@@ -96,6 +96,22 @@ const TodoPage = () => {
       });
     });
   };
+  // 監聽子層觸發的 onSave
+  const handleSave = ({ id, title }) => {
+    setTodos((prevTodos) => {
+      return prevTodos.map((todo) => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            id,
+            title,
+            isEdit: false,
+          };
+        }
+        return todo;
+      });
+    });
+  };
 
   return (
     <div>
@@ -111,6 +127,7 @@ const TodoPage = () => {
         todos={todos}
         onToggleDone={handleToggleDone}
         onChangeMode={handleChangeMode}
+        onSave={handleSave}
       />
       <Footer />
     </div>
