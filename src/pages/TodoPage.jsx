@@ -29,6 +29,7 @@ const TodoPage = () => {
   const [inputValue, setInputValue] = useState('');
   //  儲存所有的todoItem
   const [todos, setTodos] = useState(dummyTodos);
+  const count = todos.length;
 
   // 監聽子層傳來的 onChange
   const handleChange = (value) => {
@@ -112,6 +113,12 @@ const TodoPage = () => {
       });
     });
   };
+  // 監聽子層觸發的 onDelete
+  function handleDelete(id) {
+    setTodos((prevTodos) => {
+      return prevTodos.filter((todo) => todo.id !== id);
+    });
+  }
 
   return (
     <div>
@@ -128,8 +135,9 @@ const TodoPage = () => {
         onToggleDone={handleToggleDone}
         onChangeMode={handleChangeMode}
         onSave={handleSave}
+        onDelete={handleDelete}
       />
-      <Footer />
+      <Footer count={count}/>
     </div>
   );
 };
