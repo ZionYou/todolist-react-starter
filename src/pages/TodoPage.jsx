@@ -31,11 +31,28 @@ const TodoPage = () => {
   const [todos, setTodos] = useState(dummyTodos);
 
   // 接住子層傳來的 onChange
-  const handleInput = (value) => {
+  const handleChange = (value) => {
     setInputValue(value);
   };
   // 接住子層觸發的 onAddTodo
-  const handleTodo = () => {
+  const handleAddTodo = () => {
+    if (inputValue.length === 0) {
+      return;
+    }
+    setTodos((prevTodos) => {
+      return [
+        ...prevTodos,
+        {
+          id: Math.random() * 100,
+          title: inputValue,
+          isDone: false,
+        },
+      ];
+    });
+    setInputValue('');
+  };
+  // 接住子層觸發的 onKeyDown
+  const handleKeyDown = () => {
     if (inputValue.length === 0) {
       return;
     }
@@ -58,8 +75,9 @@ const TodoPage = () => {
       <Header />
       <TodoInput
         inputValue={inputValue}
-        onChange={handleInput}
-        onAddTodo={handleTodo}
+        onChange={handleChange}
+        onAddTodo={handleAddTodo}
+        onKeyDown={handleKeyDown}
       />
       <TodoCollection todos={todos} />
       <Footer />
