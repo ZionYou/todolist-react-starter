@@ -27,17 +27,41 @@ const dummyTodos = [
 const TodoPage = () => {
   // 捕捉最新的資料狀態
   const [inputValue, setInputValue] = useState('');
+  //  儲存所有的todoItem
+  const [todos, setTodos] = useState(dummyTodos);
+
   // 接住子層傳來的 onChange
   const handleInput = (value) => {
     setInputValue(value);
+  };
+  // 接住子層觸發的 onAddTodo
+  const handleTodo = () => {
+    if (inputValue.length === 0) {
+      return;
+    }
+    setTodos((prevTodos) => {
+      return [
+        ...prevTodos,
+        {
+          id: Math.random() * 100,
+          title: inputValue,
+          isDone: false,
+        },
+      ];
+    });
+    setInputValue('');
   };
 
   return (
     <div>
       TodoPage
       <Header />
-      <TodoInput inputValue={inputValue} onChange={handleInput} />
-      <TodoCollection todos={dummyTodos} />
+      <TodoInput
+        inputValue={inputValue}
+        onChange={handleInput}
+        onAddTodo={handleTodo}
+      />
+      <TodoCollection todos={todos} />
       <Footer />
     </div>
   );
