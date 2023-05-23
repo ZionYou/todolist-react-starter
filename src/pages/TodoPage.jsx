@@ -1,4 +1,5 @@
 import { Footer, Header, TodoCollection, TodoInput } from 'components';
+import { useState } from 'react';
 
 const dummyTodos = [
   {
@@ -24,11 +25,18 @@ const dummyTodos = [
 ];
 
 const TodoPage = () => {
+  // 捕捉最新的資料狀態
+  const [inputValue, setInputValue] = useState('');
+  // 接住子層傳來的 onChange
+  const handleInput = (value) => {
+    setInputValue(value);
+  };
+
   return (
     <div>
       TodoPage
       <Header />
-      <TodoInput />
+      <TodoInput inputValue={inputValue} onChange={handleInput} />
       <TodoCollection todos={dummyTodos} />
       <Footer />
     </div>
