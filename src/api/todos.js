@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 const baseUrl = 'http://localhost:3001';
 
 export const getTodos = async () => {
@@ -11,7 +10,6 @@ export const getTodos = async () => {
   }
 };
 
-// payload 通常用來表示「打包後的資訊」，在這裡打包了想要新增的 todo 內容
 export const createTodo = async (payload) => {
   const { title, isDone } = payload;
   try {
@@ -26,4 +24,5 @@ export const createTodo = async (payload) => {
 };
 
 export const patchTodo = () => {};
+
 export const deleteTodo = () => {};
