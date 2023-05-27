@@ -19,7 +19,7 @@ const TodoPage = () => {
       return;
     }
     try {
-      const data = await createTodo({
+      const data  = await createTodo({
         title: inputValue,
         isDone: false,
       });
