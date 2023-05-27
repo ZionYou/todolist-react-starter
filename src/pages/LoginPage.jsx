@@ -8,13 +8,14 @@ import { ACLogoIcon } from 'assets/images';
 import { AuthInput } from 'components';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { login, checkPermission } from '../api/auth';
 import Swal from 'sweetalert2';
+import { useAuth } from '../contexts/AuthContext';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth();
 
   const handleClick = async () => {
     if (username.length === 0) {
@@ -24,13 +25,12 @@ const LoginPage = () => {
       return;
     }
 
-    const { success, authToken } = await login({
+    const success = await login({
       username,
       password,
     });
+
     if (success) {
-      localStorage.setItem('authToken', authToken);
-      // 登入成功訊息
       Swal.fire({
         position: 'top',
         title: '登入成功！',
@@ -38,10 +38,8 @@ const LoginPage = () => {
         icon: 'success',
         showConfirmButton: false,
       });
-      navigate('/todos');
       return;
     }
-    // 登入失敗訊息
     Swal.fire({
       position: 'top',
       title: '登入失敗！',
@@ -52,19 +50,10 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    const checkTokenIsValid = async () => {
-      const authToken = localStorage.getItem('authToken');
-      if (!authToken) {
-        return;
-      }
-      const result = await checkPermission(authToken);
-      if (result) {
-        navigate('/todos');
-      }
-    };
-
-    checkTokenIsValid();
-  }, [navigate]);
+    if (isAuthenticated) {
+      navigate('/todos');
+    }
+  }, [navigate, isAuthenticated]);
 
   return (
     <AuthContainer>
@@ -72,22 +61,20 @@ const LoginPage = () => {
         <ACLogoIcon />
       </div>
       <h1>登入 Todo</h1>
-
       <AuthInputContainer>
         <AuthInput
-          label={'帳號'}
+          label="帳號"
+          placeholder="請輸入帳號"
           value={username}
-          placeholder={'請輸入帳號'}
           onChange={(nameInputValue) => setUsername(nameInputValue)}
         />
       </AuthInputContainer>
-
       <AuthInputContainer>
         <AuthInput
           type="password"
-          label={'密碼'}
+          label="密碼"
+          placeholder="請輸入密碼"
           value={password}
-          placeholder={'請輸入密碼'}
           onChange={(passwordInputValue) => setPassword(passwordInputValue)}
         />
       </AuthInputContainer>
