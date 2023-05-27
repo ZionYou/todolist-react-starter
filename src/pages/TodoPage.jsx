@@ -11,7 +11,7 @@ const TodoPage = () => {
   const [todos, setTodos] = useState([]);
   const count = todos.length;
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, currentMember } = useAuth();
 
   // 監聽子層傳來的 onChange
   const handleChange = (value) => {
@@ -156,7 +156,7 @@ const TodoPage = () => {
   return (
     <div>
       TodoPage
-      <Header />
+      <Header username={currentMember?.name} />
       <TodoInput
         inputValue={inputValue}
         onChange={handleChange}
